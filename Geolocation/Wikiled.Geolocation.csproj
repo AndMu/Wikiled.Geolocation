@@ -6,8 +6,10 @@
     <Description>Geolocation Library</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <ProjectUrl>https://github.com/AndMu/geolocation</ProjectUrl>
+	<description>A C# class library that will calculate distance and cardinal direction between two sets of coordinates and provides the lat/long boundaries around an origin coordinate allowing for simple SQL or LINQ selection of locations within the given radius.</description>
+	<summary>A C# class library that will calculate distance and cardinal direction between two sets of coordinates and provides the lat/long boundaries around an origin coordinate allowing for simple SQL or LINQ</summary>
+	<tags>coordinate coordinates distance latitude longitude boundaries geolocation location</tags>
   </PropertyGroup>
-
   <ItemGroup>    
   </ItemGroup>
 </Project>
