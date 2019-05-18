@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.6</TargetFrameworks>
+    <TargetFrameworks>netstandard1.6;NET45;NET462</TargetFrameworks>
     <Authors>Wikiled</Authors>
     <Description>Geolocation Library</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
