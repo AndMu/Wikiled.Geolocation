@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.6</TargetFrameworks>
+    <Authors>Wikiled</Authors>
+    <Description>Geolocation Library</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <ProjectUrl>https://github.com/AndMu/geolocation</ProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>    
+  </ItemGroup>
+</Project>

@@ -1,21 +1,11 @@
 ﻿using NUnit.Framework;
+using Wikiled.Geolocation;
 
 namespace Geolocation.UnitTests
 {
     [TestFixture]
     public class ExtensionMethodTests
     {
-        [Test]
-        public void ToRadianReturnsCorrectResult()
-        {
-            Coordinate coordinate = Constants.Coordinates.ValidCoordinate;
-
-            double result = coordinate.Latitude.ToRadian();
-            const double expectedResult = 0.59459164513542162;
-
-            Assert.AreEqual(result, expectedResult);
-        }
-
         [Test]
         public void DiffRadianReturnsCorrectResult()
         {
@@ -46,6 +36,17 @@ namespace Geolocation.UnitTests
 
             double result = angleTangent.ToDegrees();
             const double expectedResult = 105.10796086557809;
+
+            Assert.AreEqual(result, expectedResult);
+        }
+
+        [Test]
+        public void ToRadianReturnsCorrectResult()
+        {
+            Coordinate coordinate = Constants.Coordinates.ValidCoordinate;
+
+            double result = coordinate.Latitude.ToRadian();
+            const double expectedResult = 0.59459164513542162;
 
             Assert.AreEqual(result, expectedResult);
         }

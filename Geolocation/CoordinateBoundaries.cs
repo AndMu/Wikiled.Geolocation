@@ -1,122 +1,48 @@
-﻿/* Geolocation Class Library
- * Author: Scott Schluer (scott.schluer@gmail.com)
- * May 29, 2012
- * https://github.com/scottschluer/Geolocation
- */
+﻿using System;
 
-using System;
-
-namespace Geolocation
+namespace Wikiled.Geolocation
 {
     /// <summary>
-    /// Calculates the upper, lower, left and right coordinate boundaries based on an origin point and a distance.
+    ///     Calculates the upper, lower, left and right coordinate boundaries based on an origin point and a distance.
     /// </summary>
     public class CoordinateBoundaries
     {
-        private double _latitude;
-        private int _latitudeDistanceInMiles = 69;
-        private int _latitudeDistanceInNauticalMiles = 60;
-        private double _latitudeDistanceInKilometers = 111.045;
-        private int _latitudeDistanceInMeters = 111045;
+        private double distance;
+
+        private DistanceUnit distanceUnit;
+
+        private double latitude;
+
+        private readonly double latitudeDistanceInKilometers = 111.045;
+
+        private readonly int latitudeDistanceInMeters = 111045;
+
+        private readonly int latitudeDistanceInMiles = 69;
+
+        private readonly int latitudeDistanceInNauticalMiles = 60;
+
+        private double longitude;
 
         /// <summary>
-        /// The origin point latitude in decimal notation
-        /// </summary>
-        public double Latitude
-        {
-            get { return _latitude; }
-
-            set
-            {
-                _latitude = value;
-                Calculate();
-            }
-        }
-
-        private double _longitude;
-
-        /// <summary>
-        /// The origin point longitude in decimal notation
-        /// </summary>
-        public double Longitude
-        {
-            get { return _longitude; }
-            set
-            {
-                _longitude = value;
-                Calculate();
-            }
-        }
-
-        private double _distance;
-
-        /// <summary>
-        /// The distance in statue miles from the origin point
-        /// </summary>
-        public double Distance
-        {
-            get { return _distance; }
-            set
-            {
-                _distance = value;
-                Calculate();
-            }
-        }
-
-        private DistanceUnit _distanceUnit;
-
-        /// <summary>
-        /// The distance unit.
-        /// </summary>
-        public DistanceUnit DistanceUnit
-        {
-            get { return _distanceUnit; }
-            set
-            {
-                _distanceUnit = value;
-                Calculate();
-            }
-        }
-
-        /// <summary>
-        /// The lower boundary latitude point in decimal notation
-        /// </summary>
-        public double MaxLatitude { get; private set; }
-
-        /// <summary>
-        /// The upper boundary latitude point in decimal notation
-        /// </summary>
-        public double MinLatitude { get; private set; }
-
-        /// <summary>
-        /// The right boundary longitude point in decimal notation
-        /// </summary>
-        public double MaxLongitude { get; private set; }
-
-        /// <summary>
-        /// The left boundary longitude point in decimal notation
-        /// </summary>
-        public double MinLongitude { get; private set; }
-
-        /// <summary>
-        /// Creates a new CoordinateBoundary object
+        ///     Creates a new CoordinateBoundary object
         /// </summary>
         public CoordinateBoundaries()
         {
         }
 
         /// <summary>
-        /// Creates a new CoordinateBoundary object
+        ///     Creates a new CoordinateBoundary object
         /// </summary>
-        /// <param name="originCoordinate">A <see cref="Coordinate"/> object representing the origin location</param>
+        /// <param name="originCoordinate">A <see cref="Coordinate" /> object representing the origin location</param>
         /// <param name="distance">The distance from the origin point in statute miles</param>
         /// <param name="distanceUnit">The unit of distance</param>
         public CoordinateBoundaries(Coordinate originCoordinate, double distance, DistanceUnit distanceUnit = DistanceUnit.Miles)
-            : this(originCoordinate.Latitude, originCoordinate.Longitude, distance, distanceUnit) { }
+            : this(originCoordinate.Latitude, originCoordinate.Longitude, distance, distanceUnit)
+        {
+        }
 
-        
         /// <summary>
-        /// Creates a new CoordinateBoundary object
+        ///     Creates a new CoordinateBoundary object
         /// </summary>
         /// <param name="latitude">The origin point latitude in decimal notation</param>
         /// <param name="longitude">The origin point longitude in decimal notation</param>
@@ -125,23 +51,99 @@ namespace Geolocation
         public CoordinateBoundaries(double latitude, double longitude, double distance, DistanceUnit distanceUnit = DistanceUnit.Miles)
         {
             if (!CoordinateValidator.Validate(latitude, longitude))
+            {
                 throw new ArgumentException("Invalid coordinates supplied.");
+            }
 
-            _latitude = latitude;
-            _longitude = longitude;
-            _distance = distance;
-            _distanceUnit = distanceUnit;
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.distance = distance;
+            this.distanceUnit = distanceUnit;
 
             Calculate();
         }
 
+        /// <summary>
+        ///     The distance in statue miles from the origin point
+        /// </summary>
+        public double Distance
+        {
+            get => distance;
+            set
+            {
+                distance = value;
+                Calculate();
+            }
+        }
+
+        /// <summary>
+        ///     The distance unit.
+        /// </summary>
+        public DistanceUnit DistanceUnit
+        {
+            get => distanceUnit;
+            set
+            {
+                distanceUnit = value;
+                Calculate();
+            }
+        }
+
+        /// <summary>
+        ///     The origin point latitude in decimal notation
+        /// </summary>
+        public double Latitude
+        {
+            get => latitude;
+            set
+            {
+                latitude = value;
+                Calculate();
+            }
+        }
+
+        /// <summary>
+        ///     The origin point longitude in decimal notation
+        /// </summary>
+        public double Longitude
+        {
+            get => longitude;
+            set
+            {
+                longitude = value;
+                Calculate();
+            }
+        }
+
+        /// <summary>
+        ///     The lower boundary latitude point in decimal notation
+        /// </summary>
+        public double MaxLatitude { get; private set; }
+
+        /// <summary>
+        ///     The right boundary longitude point in decimal notation
+        /// </summary>
+        public double MaxLongitude { get; private set; }
+
+        /// <summary>
+        ///     The upper boundary latitude point in decimal notation
+        /// </summary>
+        public double MinLatitude { get; private set; }
+
+        /// <summary>
+        ///     The left boundary longitude point in decimal notation
+        /// </summary>
+        public double MinLongitude { get; private set; }
+
         private void Calculate()
         {
             if (!CoordinateValidator.Validate(Latitude, Longitude))
+            {
                 throw new ArgumentException("Invalid coordinates supplied.");
+            }
 
             double divisor = GetDivisor();
-            
+
             double latitudeConversionFactor = Distance / divisor;
             double longitudeConversionFactor = Distance / divisor / Math.Abs(Math.Cos(Latitude.ToRadian()));
 
@@ -152,25 +154,39 @@ namespace Geolocation
             MaxLongitude = Longitude + longitudeConversionFactor;
 
             // Adjust for passing over coordinate boundaries
-            if (MinLatitude < -90) MinLatitude = 90 - (-90 - MinLatitude);
-            if (MaxLatitude > 90) MaxLatitude = -90 + (MaxLatitude - 90);
+            if (MinLatitude < -90)
+            {
+                MinLatitude = 90 - (-90 - MinLatitude);
+            }
 
-            if (MinLongitude < -180) MinLongitude = 180 - (-180 - MinLongitude);
-            if (MaxLongitude > 180) MaxLongitude = -180 + (MaxLongitude - 180);
+            if (MaxLatitude > 90)
+            {
+                MaxLatitude = -90 + (MaxLatitude - 90);
+            }
+
+            if (MinLongitude < -180)
+            {
+                MinLongitude = 180 - (-180 - MinLongitude);
+            }
+
+            if (MaxLongitude > 180)
+            {
+                MaxLongitude = -180 + (MaxLongitude - 180);
+            }
         }
 
         private double GetDivisor()
         {
-            switch (_distanceUnit)
+            switch (distanceUnit)
             {
                 case DistanceUnit.NauticalMiles:
-                    return _latitudeDistanceInNauticalMiles;
+                    return latitudeDistanceInNauticalMiles;
                 case DistanceUnit.Kilometers:
-                    return _latitudeDistanceInKilometers;
+                    return latitudeDistanceInKilometers;
                 case DistanceUnit.Meters:
-                    return _latitudeDistanceInMeters;
+                    return latitudeDistanceInMeters;
                 default:
-                    return _latitudeDistanceInMiles;
+                    return latitudeDistanceInMiles;
             }
         }
     }
